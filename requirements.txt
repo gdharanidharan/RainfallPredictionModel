@@ -1,10 +1,6 @@
 Flask
 gunicorn
-pandas
-pickle
-numpy
 sklearn
 catboost
 imblearn
 xgboost
-tensorflow
