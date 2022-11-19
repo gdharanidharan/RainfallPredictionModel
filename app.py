@@ -1,12 +1,15 @@
 # Importing essential libraries
 from flask import Flask, render_template, request
-import pickle
+from keras.models import load_model
 import numpy as np
 
 
 # Load the Random Forest CLassifier model
-clf = pickle.load(open("model.pkl", "rb"))
-print("Model Loaded")
+# filename = 'model.h5'
+# clf = pickle.load(open(filename, 'rb'))
+
+model = load_model('model.h5')
+model.summary()
 
 app = Flask(__name__)
 
@@ -31,11 +34,8 @@ def predict():
         humidity9am = float(request.form['Humidity9am'])
         humidity3pm = float(request.form['Humidity3pm'])
         pressure9am = float(request.form['Pressure9am'])
-        pressure3pm = float(request.form['Pressure3pm'])
         cloud9am = float(request.form['Cloud9am'])
         cloud3pm = float(request.form['Cloud3pm'])
-        temp9am = float(request.form['Temp9am'])
-        temp3pm = float(request.form['Temp3pm'])
         rainToday = request.form['RainToday']
         if rainToday == 'Yes':
             rainToday = 1
@@ -252,10 +252,10 @@ def predict():
             temp_array = temp_array + [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
         
-        temp_array = [min_temp, max_temp, rainfall, evaporation, sunshine, wind_gust_speed, wind_speed_9am, wind_speed_3pm, humidity9am, humidity3pm, pressure9am, pressure3pm, cloud9am, cloud3pm, temp9am, temp3pm, rainToday, year, month, day] + temp_array 
+        temp_array = [min_temp, max_temp, rainfall, evaporation, sunshine, wind_gust_speed, wind_speed_9am, wind_speed_3pm, humidity9am, humidity3pm, pressure9am, cloud9am, cloud3pm, rainToday, year, month, day] + temp_array 
         
         data = np.array([temp_array])
-        my_prediction = int(clf.predict(data)[0])
+        my_prediction = int(model.predict(data)[0])
 
               
         return render_template('result.html', my_prediction=my_prediction)
