@@ -1,12 +1,13 @@
 # Importing essential libraries
 from flask import Flask, render_template, request
-from keras.models import load_model
+# from keras.models import load_model
 import numpy as np
 import pickle
+import joblib
 
 
 filename = 'model.pkl'
-model = pickle.load(open(filename, 'rb'))
+model = joblib.load(filename)
 
 # model = load_model('model.h5')
 # model.summary()
