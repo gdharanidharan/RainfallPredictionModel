@@ -2,14 +2,14 @@
 from flask import Flask, render_template, request
 from keras.models import load_model
 import numpy as np
+import pickle
 
 
-# Load the Random Forest CLassifier model
-# filename = 'model.h5'
-# clf = pickle.load(open(filename, 'rb'))
+filename = 'model.pkl'
+model = pickle.load(open(filename, 'rb'))
 
-model = load_model('model.h5')
-model.summary()
+# model = load_model('model.h5')
+# model.summary()
 
 app = Flask(__name__)
 
